@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors({
-  origin: '*'
+  origin: 'https://task-manager-2ner.onrender.com'
 }));
 app.use(express.json());
 
