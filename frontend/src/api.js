@@ -1,7 +1,6 @@
 // src/api.js
 import axios from "axios";
 
-// Base URL for the backend API
 const API_BASE_URL = 'https://task-manager-2ner.onrender.com/api';
 
 const api = axios.create({
@@ -11,9 +10,18 @@ const api = axios.create({
   },
 });
 
-// User registration API call
+// IMPORTANT: This interceptor attaches the token to EVERY request automatically
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
 export const registerUser = async (userData) => {
-  // Send POST request to /api/auth/register with the user data
   return await api.post('/auth/register', userData);
 };
 
